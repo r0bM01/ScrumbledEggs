@@ -28,10 +28,8 @@ class Crypto:
     def verify(self, data, password):
         psw = hashlib.blake2b(password.encode('utf-8'), digest_size = 64).digest()
         signature = data[-4:]
-        print("Signature: ", signature.hex())
         tmp_data = data[:-4]
         if hashlib.blake2b(tmp_data, digest_size = 4, key = psw).digest() == signature:
-            print("Correct signature")
             return tmp_data
         else:
             assert print("Invalid signature!!")
@@ -73,6 +71,5 @@ class Crypto:
         tmp_data = b"".join(data_chunks)
         if self.pad_code in tmp_data:
             pos = tmp_data.find(self.pad_code)
-            print("padcode in pos: ", pos)
             tmp_data = tmp_data[:pos] + tmp_data[pos + 3:]
         return tmp_data.decode('utf-8')
